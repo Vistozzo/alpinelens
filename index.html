@@ -71,17 +71,25 @@
 
         .arch-mask { border-radius: 160px 160px 20px 20px; }
         
-        .film-frame::before, .film-frame::after {
-            content: "• • • • • • • • • • • • • • • • • •";
-            display: block;
-            color: rgba(255,255,255,0.15);
-            letter-spacing: 0.8rem;
-            font-size: 10px;
-            padding: 12px 0; 
-            text-align: center;
+        /* Estilos Perforaciones Film Rectangulares */
+        .film-rect {
+            width: 12px;
+            height: 8px;
+            border-radius: 2px;
+            background: #121212; 
+            border: 1px solid #2a2a2a; 
+            flex-shrink: 0;
         }
 
-        /* Lógica del Logo: Blanco en Hero, Marrón en Scroll */
+        /* Estructura del marco cinematográfico */
+        .film-frame {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 50px; 
+            padding-bottom: 0px; 
+        }
+
+        /* Lógica del Logo */
         .nav-logo {
             filter: brightness(0) invert(1);
             transition: filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
@@ -116,7 +124,7 @@
             transition: opacity 0.4s ease-in-out;
         }
 
-        /* Flechas de Navegación del Carrusel */
+        /* Flechas de Navegación */
         .lightbox-btn {
             background-color: white;
             border-radius: 50%;
@@ -130,23 +138,90 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             cursor: pointer;
             border: none;
+            position: absolute;
+            top: 50%;
+            z-index: 110;
         }
+        
+        #lightbox-prev {
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+        
+        #lightbox-next {
+            right: 0;
+            transform: translate(50%, -50%);
+        }
+
         .lightbox-btn:hover {
             background-color: #F4EFE6;
-            transform: scale(1.1) translateY(-50%);
             color: #C6A75E;
         }
+
         .lightbox-btn svg {
             width: 20px;
             height: 20px;
         }
 
+        /* Carrusel Testimonios */
+        .testimonial-carousel {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            overflow: hidden;
+            cursor: grab;
+            touch-action: pan-y;
+            display: flex;
+            align-items: center;
+        }
+
+        .testimonial-track {
+            display: flex;
+            gap: 2rem;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .testimonial-card {
+            width: 85vw;
+            max-width: 320px;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .testimonial-carousel {
+                width: 100%;
+                left: auto;
+                right: auto;
+                margin-left: 0;
+                margin-right: 0;
+                cursor: default;
+                overflow: visible;
+            }
+            .testimonial-track {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
+                width: 100% !important;
+                transform: none !important;
+            }
+            .testimonial-card {
+                width: 100%;
+                max-width: none;
+            }
+            .testimonial-card.clone {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero-title { font-size: 3.2rem; line-height: 1.05; }
             .arch-mask { border-radius: 120px 120px 15px 15px; }
-            .lightbox-btn { width: 40px; height: 40px; }
-            .lightbox-btn svg { width: 18px; height: 18px; }
-            .lightbox-btn:hover { transform: translateY(-50%); }
+            .film-frame { padding-left: 14px; padding-right: 14px; padding-top: 35px; padding-bottom: 0px; }
+            .film-rect { width: 10px; height: 6px; }
         }
     </style>
 </head>
@@ -201,7 +276,7 @@
         <div class="relative z-10 max-w-full px-8 space-y-8 text-white">
             <div class="flex items-center justify-center gap-6 opacity-70 reveal active">
                 <div class="h-[1px] w-12 bg-white/30"></div>
-                <p class="text-[10px] tracking-super-wide uppercase font-light uppercase">JUNGFRAU REGION • SWITZERLAND</p>
+                <p class="text-[10px] tracking-super-wide uppercase font-light">JUNGFRAU REGION • SWITZERLAND</p>
                 <div class="h-[1px] w-12 bg-white/30"></div>
             </div>
             <div class="space-y-4">
@@ -216,71 +291,71 @@
     </section>
 
     <!-- ================= 1. EL PORTFOLIO ================= -->
-    <section id="portfolio" class="py-24 md:py-36 px-6 bg-beige-light reveal w-full overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center mb-20 md:mb-28 space-y-6">
+    <section id="portfolio" class="py-24 md:py-36 px-3 md:px-6 bg-beige-light reveal w-full overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center mb-16 md:mb-28 space-y-6">
             <div class="flex items-center justify-center gap-5 opacity-40 mb-2">
                 <div class="h-[1px] w-12 bg-title-brown"></div>
-                <p class="text-[10px] tracking-super-wide uppercase text-title-brown font-bold uppercase">TRABAJO SELECCIONADO</p>
+                <p class="text-[10px] tracking-super-wide uppercase text-title-brown font-bold">TRABAJO SELECCIONADO</p>
                 <div class="h-[1px] w-12 bg-title-brown"></div>
             </div>
-            <h2 class="text-6xl md:text-8xl font-serif text-title-brown font-light leading-none">El Portfolio</h2>
-            <p class="text-lg md:text-xl font-serif italic text-text-muted">Emociones reales. Luz natural. Recuerdos para la eternidad.</p>
+            <h2 class="text-5xl md:text-8xl font-serif text-title-brown font-light leading-none">El Portfolio</h2>
+            <p class="text-base md:text-xl font-serif italic text-text-muted">Emociones reales. Luz natural. Recuerdos para la eternidad.</p>
         </div>
 
-        <div class="grid grid-cols-2 gap-8 md:gap-x-16 md:gap-y-24 max-w-5xl mx-auto">
-            <article class="group space-y-6 cursor-pointer portfolio-item" data-gallery="lauterbrunnen">
-                <div class="bg-frame-color p-3 md:p-5 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
-                    <div class="bg-soft-white p-1.5 md:p-3">
+        <div class="grid grid-cols-2 gap-x-3 gap-y-12 md:gap-x-16 md:gap-y-24 max-w-5xl mx-auto">
+            <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="lauterbrunnen">
+                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div class="bg-soft-white p-1 md:p-1">
                         <div class="aspect-[4/5] overflow-hidden bg-beige-dark">
                             <img src="https://alpinelens.ch/assets/porfolio/lauter/lauter-6.jpg" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="[Sesión en Lauterbrunnen]">
                         </div>
                     </div>
                 </div>
-                <div class="text-center space-y-1">
-                    <h3 class="font-serif text-xl md:text-3xl text-title-brown font-light tracking-wide uppercase">Lauterbrunnen</h3>
-                    <p class="text-[8px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold uppercase">PAREJA • SUIZA</p>
+                <div class="text-center space-y-1 px-1 max-w-full">
+                    <h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Lauterbrunnen</h3>
+                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">PAREJA • SUIZA</p>
                 </div>
             </article>
 
-            <article class="group space-y-6 cursor-pointer portfolio-item" data-gallery="lucerne">
-                <div class="bg-frame-color p-3 md:p-5 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
-                    <div class="bg-soft-white p-1.5 md:p-3">
+            <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="lucerne">
+                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div class="bg-soft-white p-1 md:p-1">
                         <div class="aspect-[4/5] overflow-hidden bg-beige-dark">
                             <img src="https://alpinelens.ch/assets/porfolio/france/france-9.jpg" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="[Sesión en Lucerna]">
                         </div>
                     </div>
                 </div>
-                <div class="text-center space-y-1">
-                    <h3 class="font-serif text-xl md:text-3xl text-title-brown font-light tracking-wide uppercase">Lago Lucerna</h3>
-                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold uppercase">FAMILIA • SUIZA</p>
+                <div class="text-center space-y-1 px-1 max-w-full">
+                    <h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Lago Lucerna</h3>
+                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">FAMILIA • SUIZA</p>
                 </div>
             </article>
 
-            <article class="group space-y-6 cursor-pointer portfolio-item" data-gallery="wengen-winter">
-                <div class="bg-frame-color p-3 md:p-5 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
-                    <div class="bg-soft-white p-1.5 md:p-3">
+            <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="wengen-winter">
+                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div class="bg-soft-white p-1 md:p-1">
                         <div class="aspect-[4/5] overflow-hidden bg-beige-dark">
                             <img src="https://alpinelens.ch/assets/porfolio/propuesta/propuesta-6.jpg" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="[Sesión en Wengen Invierno]">
                         </div>
                     </div>
                 </div>
-                <div class="text-center space-y-1">
-                    <h3 class="font-serif text-xl md:text-3xl text-title-brown font-light tracking-wide uppercase">Wengen</h3>
-                    <p class="text-[8px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold uppercase">WINTER TALE • SUIZA</p>
+                <div class="text-center space-y-1 px-1 max-w-full">
+                    <h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Wengen</h3>
+                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">WINTER TALE • SUIZA</p>
                 </div>
             </article>
 
-            <article class="group space-y-6 cursor-pointer portfolio-item" data-gallery="wengen-autumn">
-                <div class="bg-frame-color p-3 md:p-5 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
-                    <div class="bg-soft-white p-1.5 md:p-3">
+            <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="wengen-autumn">
+                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div class="bg-soft-white p-1 md:p-1">
                         <div class="aspect-[4/5] overflow-hidden bg-beige-dark">
                             <img src="https://alpinelens.ch/assets/porfolio/wengen/wengen-3.jpg" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="[Sesión en Wengen Otoño]">
                         </div>
                     </div>
                 </div>
-                <div class="text-center space-y-1">
-                    <h3 class="font-serif text-xl md:text-3xl text-title-brown font-light tracking-wide uppercase">Wengen</h3>
-                    <p class="text-[8px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold uppercase">OTOÑO • SUIZA</p>
+                <div class="text-center space-y-1 px-1 max-w-full">
+                    <h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Wengen</h3>
+                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">OTOÑO • SUIZA</p>
                 </div>
             </article>
         </div>
@@ -292,7 +367,7 @@
             <div class="mb-20 space-y-5">
                 <div class="flex items-center justify-center gap-5 mb-2">
                     <div class="h-[1px] w-12 bg-accent-gold/40"></div>
-                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold uppercase">VISTA PANORÁMICA</p>
+                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold">VISTA PANORÁMICA</p>
                     <div class="h-[1px] w-12 bg-accent-gold/40"></div>
                 </div>
                 <h2 class="text-5xl md:text-7xl font-serif text-title-brown font-light leading-none">La escena completa</h2>
@@ -303,21 +378,21 @@
                     <div class="aspect-[5198/1734] overflow-hidden shadow-2xl bg-title-brown/5 rounded-sm">
                         <img src="https://alpinelens.ch/assets/collage/collage-1.jpeg" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" alt="[Escena de montaña 1]">
                     </div>
-                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic uppercase">LAUTERBRUNNEN • HISTORIAS DE MONTAÑA</p>
+                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic">LAUTERBRUNNEN • HISTORIAS DE MONTAÑA</p>
                 </div>
 
                 <div class="group">
                     <div class="aspect-[5198/1734] overflow-hidden shadow-2xl bg-title-brown/5 rounded-sm">
                         <img src="https://alpinelens.ch/assets/collage/collage-2.jpg" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" alt="[Escena de montaña 2]">
                     </div>
-                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic uppercase">VALLE ALPINO • MOMENTOS ÚNICOS</p>
+                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic">VALLE ALPINO • MOMENTOS ÚNICOS</p>
                 </div>
 
                 <div class="group">
                     <div class="aspect-[5198/1734] overflow-hidden shadow-2xl bg-title-brown/5 rounded-sm">
                         <img src="https://alpinelens.ch/assets/collage/collage-3.jpeg" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" alt="[Escena de montaña 3]">
                     </div>
-                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic uppercase">GRINDELWALD • LUZ Y NATURALEZA</p>
+                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic">GRINDELWALD • LUZ Y NATURALEZA</p>
                 </div>
             </div>
         </div>
@@ -329,55 +404,113 @@
             <div class="text-center mb-24 space-y-6">
                 <div class="flex items-center justify-center gap-5 mb-2">
                     <div class="h-[1px] w-12 bg-accent-gold/40"></div>
-                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold uppercase">CINE ANALÓGICO</p>
+                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold">CINE ANALÓGICO</p>
                     <div class="h-[1px] w-12 bg-accent-gold/40"></div>
                 </div>
                 <h2 class="text-5xl md:text-7xl font-serif text-title-brown font-light leading-none">Historias en Movimiento</h2>
                 <p class="text-lg text-text-muted font-serif italic">Cada segundo, una emoción capturada para siempre.</p>
             </div>
 
-            <div class="space-y-24 md:space-y-32">
-                <div class="space-y-8">
-                    <article class="bg-black p-4 md:p-6 film-frame shadow-2xl rounded-sm">
-                        <div class="aspect-[16/9] overflow-hidden">
-                            <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
-                                <source src="https://alpinelens.ch/assets/videos/video-1.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                    </article>
-                    <div class="text-center space-y-2">
-                        <p class="text-[9px] tracking-extra-wide text-text-muted uppercase font-bold uppercase">PAREJA • VALLE DE LAUTERBRUNNEN</p>
-                        <h4 class="text-title-brown text-xl md:text-2xl font-serif font-light italic uppercase tracking-widest">Alpine Story</h4>
+            <div class="space-y-20 md:space-y-32">
+                <!-- Video 1 -->
+                <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col min-h-[480px] md:min-h-[580px]">
+                    <!-- TOP PERFORATIONS (Centradas: margen 50px - rect 8px = 42px / 2 = 21px top) -->
+                    <div class="flex gap-2 absolute top-[21px] left-[20px] max-sm:left-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
                     </div>
-                </div>
+                    <div class="flex gap-2 absolute top-[21px] right-[20px] max-sm:right-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    
+                    <div class="aspect-[16/9] overflow-hidden w-full relative z-10">
+                        <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
+                            <source src="https://alpinelens.ch/assets/videos/video-1.mp4" type="video/mp4">
+                        </video>
+                    </div>
 
-                <div class="space-y-8">
-                    <article class="bg-black p-4 md:p-6 film-frame shadow-2xl rounded-sm">
-                        <div class="aspect-[16/9] overflow-hidden">
-                            <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
-                                <source src="https://alpinelens.ch/assets/videos/video-2.mp4" type="video/mp4">
-                            </video>
+                    <!-- ÁREA INFERIOR TOTAL -->
+                    <div class="flex-grow flex flex-col bg-black relative">
+                        <!-- Perforaciones Inferiores (Misma distancia que arriba: 21px del video) -->
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[15px]">
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
                         </div>
-                    </article>
-                    <div class="text-center space-y-2">
-                        <p class="text-[9px] tracking-extra-wide text-text-muted uppercase font-bold uppercase">PAREJA • WENGEN</p>
-                        <h4 class="text-title-brown text-xl md:text-2xl font-serif font-light italic uppercase tracking-widest">Winter Tale</h4>
-                    </div>
-                </div>
 
-                <div class="space-y-8">
-                    <article class="bg-black p-4 md:p-6 film-frame shadow-2xl rounded-sm">
-                        <div class="aspect-[16/9] overflow-hidden">
-                            <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
-                                <source src="https://alpinelens.ch/assets/videos/video-3.mp4" type="video/mp4">
-                            </video>
+                        <!-- Texto alineado verticalmente al centro del TOTAL del margen inferior -->
+                        <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2">
+                            <p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold">PAREJA • VALLE DE LAUTERBRUNNEN</p>
+                            <h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Alpine Story</h4>
                         </div>
-                    </article>
-                    <div class="text-center space-y-2">
-                        <p class="text-[9px] tracking-extra-wide text-text-muted uppercase font-bold uppercase">SESIÓN PAREJA • INTERLAKEN</p>
-                        <h4 class="text-title-brown text-xl md:text-2xl font-serif font-light italic uppercase tracking-widest">Interlaken</h4>
                     </div>
-                </div>
+                </article>
+
+                <!-- Video 2 -->
+                <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col min-h-[480px] md:min-h-[580px]">
+                    <div class="flex gap-2 absolute top-[21px] left-[20px] max-sm:left-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    <div class="flex gap-2 absolute top-[21px] right-[20px] max-sm:right-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    
+                    <div class="aspect-[16/9] overflow-hidden w-full relative z-10">
+                        <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
+                            <source src="https://alpinelens.ch/assets/videos/video-2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <div class="flex-grow flex flex-col bg-black relative">
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[15px]">
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2">
+                            <p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold">PAREJA • WENGEN</p>
+                            <h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Winter Tale</h4>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Video 3 -->
+                <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col min-h-[480px] md:min-h-[580px]">
+                    <div class="flex gap-2 absolute top-[21px] left-[20px] max-sm:left-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    <div class="flex gap-2 absolute top-[21px] right-[20px] max-sm:right-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    
+                    <div class="aspect-[16/9] overflow-hidden w-full relative z-10">
+                        <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
+                            <source src="https://alpinelens.ch/assets/videos/video-3.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <div class="flex-grow flex flex-col bg-black relative">
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[15px]">
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2">
+                            <p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold text-center">SESIÓN PAREJA • INTERLAKEN</p>
+                            <h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Interlaken</h4>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
@@ -387,7 +520,7 @@
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
             
             <div class="relative w-full flex justify-center order-2 md:order-1">
-                <div class="relative w-full max-w-sm aspect-[3/4]">
+                <div class="relative w-full max-sm:max-w-xs aspect-[3/4]">
                     <div class="arch-mask w-full h-full overflow-hidden bg-soft-white shadow-2xl">
                         <img id="about-img" src="https://alpinelens.ch/assets/fotografo.jpg" 
                              class="w-full h-full object-cover hover:scale-105 transition-transform duration-[3s]" 
@@ -399,7 +532,7 @@
 
             <div class="space-y-10 order-1 md:order-2">
                 <header class="space-y-5">
-                    <p class="tracking-super-wide uppercase text-[10px] text-text-muted font-bold flex items-center gap-5 uppercase uppercase">
+                    <p class="tracking-super-wide uppercase text-[10px] text-text-muted font-bold flex items-center gap-5">
                         <span class="w-12 h-[1px] bg-title-brown/30"></span> EL FOTÓGRAFO
                     </p>
                     <div class="space-y-2">
@@ -415,11 +548,11 @@
 
                 <div class="grid grid-cols-2 gap-10 pt-10 border-t border-title-brown/10 uppercase">
                     <div class="space-y-3">
-                        <p class="uppercase tracking-extra-wide text-[9px] text-text-muted font-bold uppercase">Luz natural</p>
+                        <p class="uppercase tracking-extra-wide text-[9px] text-text-muted font-bold">Luz natural</p>
                         <p class="text-xs text-text-body leading-relaxed opacity-80 font-sans normal-case">Especialista en la magia de la luz alpina</p>
                     </div>
                     <div class="space-y-3">
-                        <p class="uppercase tracking-extra-wide text-[9px] text-text-muted font-bold uppercase">Lugares exclusivos</p>
+                        <p class="uppercase tracking-extra-wide text-[9px] text-text-muted font-bold">Lugares exclusivos</p>
                         <p class="text-xs text-text-body leading-relaxed opacity-80 font-sans normal-case">Acceso a miradores únicos y privados</p>
                     </div>
                 </div>
@@ -433,48 +566,69 @@
             <div class="text-center mb-24">
                 <div class="flex items-center justify-center gap-5 mb-5">
                     <div class="h-[1px] w-12 bg-accent-gold/40"></div>
-                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold uppercase uppercase">TESTIMONIOS</p>
+                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold">TESTIMONIOS</p>
                     <div class="h-[1px] w-12 bg-accent-gold/40"></div>
                 </div>
                 <h2 class="text-5xl md:text-7xl font-serif text-title-brown font-light leading-tight">Lo que dicen los clientes</h2>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
-                <article class="bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
-                    <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
-                        “Nicholas tiene una energía y una filosofía tan entusiastas que hicieron que la sesión fuera muy divertida y cómoda.”
-                    </blockquote>
-                    <footer class="border-t border-title-brown/10 pt-8">
-                        <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Amber Kohl</cite>
-                    </footer>
-                </article>
-                <article class="bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
-                    <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
-                        “Nicholas hizo un trabajo excelente. Es muy minucioso y tiene mucha paciencia. Nos hizo sentir cómodos.”
-                    </blockquote>
-                    <footer class="border-t border-title-brown/10 pt-8">
-                        <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Deepa Rawat</cite>
-                    </footer>
-                </article>
-                <article class="bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
-                    <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
-                        “¡No podríamos haber pedido una mejor experiencia! Trabajar con él fue un sueño. Las fotos son absolutamente impresionantes.”
-                    </blockquote>
-                    <footer class="border-t border-title-brown/10 pt-8">
-                        <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">I.S</cite>
-                    </footer>
-                </article>
-                <article class="bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
-                    <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
-                        “Estamos muy agradecidos de haber conocido a Nicholas. Se nota que le apasiona su trabajo. ¡No duden en contactarlo!”
-                    </blockquote>
-                    <footer class="border-t border-title-brown/10 pt-8">
-                        <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Whitney Erickson</cite>
-                    </footer>
-                </article>
+            
+            <div id="test-carousel" class="testimonial-carousel">
+                <div id="test-track" class="testimonial-track">
+                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Nicholas tiene una energía y una filosofía tan entusiastas que hicieron que la sesión fuera muy divertida y cómoda.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Amber Kohl</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Nicholas hizo un trabajo excelente. Es muy minucioso y tiene mucha paciencia. Nos hizo sentir cómodos.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Deepa Rawat</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “¡No podríamos haber pedido una mejor experiencia! Trabajar con él fue un sueño. Las fotos son absolutamente impresionantes.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">I.S</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Estamos muy agradecidos de haber conocido a Nicholas. Se nota que le apasiona su trabajo. ¡No duden en contactarlo!”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Whitney Erickson</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card clone bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Nicholas tiene una energía y una filosofía tan entusiastas que hicieron que la sesión fuera muy divertida y cómoda.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Amber Kohl</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card clone bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Nicholas hizo un trabajo excelente. Es muy minucioso y tiene mucha paciencia. Nos hizo sentir cómodos.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Deepa Rawat</cite>
+                        </footer>
+                    </article>
+                </div>
             </div>
         </div>
     </section>
@@ -484,7 +638,7 @@
         <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-24 items-start">
             <div class="space-y-12">
                 <header class="space-y-8">
-                    <p class="tracking-super-wide uppercase text-[10px] text-text-muted font-bold flex items-center gap-5 uppercase uppercase">
+                    <p class="tracking-super-wide uppercase text-[10px] text-text-muted font-bold flex items-center gap-5">
                         <span class="w-12 h-[1px] bg-title-brown/30"></span> CONTACTO
                     </p>
                     <div class="space-y-2 text-left">
@@ -496,25 +650,25 @@
                     </p>
                 </header>
 
-                <div class="space-y-8 text-[10px] tracking-extra-wide uppercase font-medium uppercase uppercase uppercase">
+                <div class="space-y-8 text-[10px] tracking-extra-wide uppercase font-medium">
                     <div class="flex items-start gap-8 group">
                         <span class="mt-3 h-[1px] w-10 bg-title-brown/20 group-hover:w-16 transition-all duration-500"></span>
                         <div>
-                            <p class="text-text-muted mb-1 text-[8px] font-bold uppercase uppercase">Ubicación</p>
+                            <p class="text-text-muted mb-1 text-[8px] font-bold">Ubicación</p>
                             <p class="text-title-brown text-sm font-bold">Grindelwald, Suiza</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-8 group">
                         <span class="mt-3 h-[1px] w-10 bg-title-brown/20 group-hover:w-16 transition-all duration-500"></span>
                         <div>
-                            <p class="text-text-muted mb-1 text-[8px] font-bold uppercase uppercase">Email</p>
+                            <p class="text-text-muted mb-1 text-[8px] font-bold">Email</p>
                             <p class="text-title-brown text-sm font-bold underline decoration-accent-gold/40 lowercase font-sans">Alpinphotography@gmail.com</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-8 group">
                         <span class="mt-3 h-[1px] w-10 bg-title-brown/20 group-hover:w-16 transition-all duration-500"></span>
                         <div>
-                            <p class="text-text-muted mb-1 text-[8px] font-bold uppercase uppercase">WhatsApp</p>
+                            <p class="text-text-muted mb-1 text-[8px] font-bold">WhatsApp</p>
                             <p class="text-title-brown text-sm font-bold">+41 76 791 13 83</p>
                         </div>
                     </div>
@@ -525,23 +679,23 @@
                 <form class="space-y-10" action="#" method="POST">
                     <div class="grid md:grid-cols-2 gap-10">
                         <div class="space-y-3 text-left">
-                            <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold uppercase">Nombre *</label>
+                            <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold">Nombre *</label>
                             <input type="text" required placeholder="Tu nombre" class="w-full py-4 text-sm bg-transparent border-b border-title-brown/10 focus:border-accent-gold outline-none transition-colors">
                         </div>
                         <div class="space-y-3 text-left">
-                            <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold uppercase">Email *</label>
+                            <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold">Email *</label>
                             <input type="email" required placeholder="tu@email.com" class="w-full py-4 text-sm bg-transparent border-b border-title-brown/10 focus:border-accent-gold outline-none transition-colors">
                         </div>
                     </div>
                     <div class="space-y-3 text-left">
-                        <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold uppercase block">Fecha deseada</label>
+                        <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold block">Fecha deseada</label>
                         <input type="date" class="w-full py-4 text-sm bg-transparent border-b border-title-brown/10 outline-none opacity-50">
                     </div>
                     <div class="space-y-3 text-left">
-                        <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold uppercase">Tu Visión</label>
+                        <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold">Tu Visión</label>
                         <textarea rows="3" placeholder="Cuéntame sobre tu visión..." class="w-full py-4 text-sm bg-transparent border-b border-title-brown/10 focus:border-accent-gold outline-none transition-colors resize-none"></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-title-brown text-warm-white py-5 text-[10px] tracking-super-wide font-bold uppercase hover:bg-olive transition-all shadow-xl uppercase uppercase">Solicitar reserva</button>
+                    <button type="submit" class="w-full bg-title-brown text-warm-white py-5 text-[10px] tracking-super-wide font-bold uppercase hover:bg-olive transition-all shadow-xl">Solicitar reserva</button>
                 </form>
             </div>
         </div>
@@ -554,10 +708,10 @@
             <a href="https://alpinelens.ch" class="mx-auto lg:mx-0 inline-block transition-transform hover:scale-110" aria-label="Volver arriba">
                 <img src="https://alpinelens.ch/assets/logo-marron.png" alt="[Logo pie de página]" class="h-12 w-auto brightness-0 invert opacity-90">
             </a>
-            <p class="uppercase tracking-super-wide text-[9px] text-warm-white/40 font-bold uppercase uppercase">Jungfrau Region · Suiza</p>
+            <p class="uppercase tracking-super-wide text-[9px] text-warm-white/40 font-bold uppercase">Jungfrau Region · Suiza</p>
         </div>
 
-        <nav class="flex flex-wrap justify-center gap-x-12 gap-y-6 tracking-extra-wide uppercase text-[10px] text-warm-white/60 font-medium uppercase uppercase">
+        <nav class="flex flex-wrap justify-center gap-x-12 gap-y-6 tracking-extra-wide uppercase text-[10px] text-warm-white/60 font-medium uppercase">
             <a href="#portfolio" class="hover:text-white transition-colors">Portfolio</a>
             <a href="#about" class="hover:text-white transition-colors">Sobre mí</a>
             <a href="#contact" class="hover:text-white transition-colors">Contacto</a>
@@ -568,8 +722,8 @@
         </div>
     </div>
     
-    <div class="max-w-7xl mx-auto border-t border-white/5 mt-20 pt-10 flex flex-col md:flex-row justify-between gap-6 text-[9px] text-white/20 tracking-extra-wide uppercase uppercase">
-        <span class="font-bold uppercase uppercase">© 2025 ALPIN LENS PHOTOGRAPHY</span>
+    <div class="max-w-7xl mx-auto border-t border-white/5 mt-20 pt-10 flex flex-col md:flex-row justify-between gap-6 text-[9px] text-white/20 tracking-extra-wide uppercase">
+        <span class="font-bold uppercase">© 2025 ALPIN LENS PHOTOGRAPHY</span>
         <span class="italic font-serif text-sm">Historias de montaña escritas con luz</span>
     </div>
 </footer>
@@ -580,36 +734,24 @@
     
     <div class="relative w-full lg:max-w-3xl h-full flex items-center justify-center">
         <div class="w-full flex flex-col items-center gap-6 md:gap-8 px-4 pointer-events-none">
-            
-            <!-- Contenedor de Imagen + Botones de Navegación -->
-            <!-- He movido los botones fuera del marco con overflow-hidden para que sean visibles -->
             <div class="relative pointer-events-auto w-full max-w-full lg:max-w-2xl">
-                
-                <!-- Botón Anterior: Flota fuera del marco para no ser recortado -->
-                <button id="lightbox-prev" class="lightbox-btn absolute left-4 md:-left-16 top-1/2 -translate-y-1/2 z-[110]" aria-label="Anterior">
+                <button id="lightbox-prev" class="lightbox-btn" aria-label="Anterior">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
-                
-                <!-- Botón Siguiente: Flota fuera del marco para no ser recortado -->
-                <button id="lightbox-next" class="lightbox-btn absolute right-4 md:-right-16 top-1/2 -translate-y-1/2 z-[110]" aria-label="Siguiente">
+                <button id="lightbox-next" class="lightbox-btn" aria-label="Siguiente">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
-
-                <!-- Marco Proporcional 3:2 -->
                 <div class="relative aspect-[3/2] overflow-hidden shadow-2xl bg-black/40">
                     <img id="lightbox-img" src="" alt="" class="w-full h-full object-contain opacity-0 transition-opacity duration-300">
                 </div>
             </div>
-
-            <!-- Textos Informativos Redimensionados -->
             <div class="text-center space-y-2 md:space-y-3 max-w-xl pointer-events-auto">
                 <h4 id="lightbox-title" class="text-white text-xl md:text-3xl font-serif font-light tracking-widest uppercase"></h4>
-                <p id="lightbox-desc" class="text-accent-gold text-[9px] md:text-[11px] tracking-super-wide uppercase font-bold uppercase"></p>
+                <p id="lightbox-desc" class="text-accent-gold text-[9px] md:text-[11px] tracking-super-wide uppercase font-bold"></p>
             </div>
         </div>
     </div>
-    
-    <div id="lightbox-counter" class="absolute bottom-10 text-white/20 text-[9px] md:text-[10px] tracking-super-wide uppercase font-bold uppercase">1 / 1</div>
+    <div id="lightbox-counter" class="absolute bottom-10 text-white/20 text-[9px] md:text-[10px] tracking-super-wide uppercase font-bold">1 / 1</div>
 </div>
 
 <script>
@@ -744,6 +886,80 @@
             if (e.key === 'ArrowLeft') document.getElementById('lightbox-prev').click();
         }
     });
+
+    /* LÓGICA CARRUSEL TESTIMONIOS (MÓVIL) */
+    const testTrack = document.getElementById('test-track');
+    const testCarousel = document.getElementById('test-carousel');
+    let currentT = 0, targetT = 0, isTDragging = false, startT = 0, autoTSpeed = 0.6, dragTVelocity = 0, totalTWidth = 0;
+    
+    const lerpT = (start, end, t) => start * (1 - t) + end * t;
+
+    const calcTDimensions = () => {
+        if (window.innerWidth >= 1024) return;
+        const items = document.querySelectorAll('.testimonial-card:not(.clone)');
+        if (items.length > 0) {
+            const itemWidth = items[0].getBoundingClientRect().width;
+            const gap = 32; 
+            totalTWidth = (itemWidth + gap) * items.length;
+        }
+    };
+
+    const animateT = () => {
+        if (window.innerWidth >= 1024) {
+            requestAnimationFrame(animateT);
+            return;
+        }
+        if (!isTDragging) {
+            targetT += autoTSpeed;
+            if (Math.abs(dragTVelocity) > 0.1) {
+                targetT += dragTVelocity;
+                dragTVelocity *= 0.95;
+            }
+        }
+        currentT = lerpT(currentT, targetT, 0.2);
+        if (totalTWidth > 0) {
+            if (currentT >= totalTWidth) {
+                currentT -= totalTWidth;
+                targetT -= totalTWidth;
+            } else if (currentT < 0) {
+                currentT += totalTWidth;
+                targetT += totalTWidth;
+            }
+        }
+        testTrack.style.transform = `translate3d(-${currentT}px, 0, 0)`;
+        requestAnimationFrame(animateT);
+    };
+
+    const handleTStart = (x) => {
+        isTDragging = true;
+        startT = x;
+        dragTVelocity = 0;
+    };
+
+    const handleTMove = (x) => {
+        if (!isTDragging) return;
+        const delta = (startT - x) * 1.3;
+        targetT += delta;
+        dragTVelocity = delta;
+        startT = x;
+    };
+
+    testCarousel.addEventListener('mousedown', (e) => { 
+        if(window.innerWidth < 1024) { e.preventDefault(); handleTStart(e.pageX); }
+    });
+    testCarousel.addEventListener('touchstart', (e) => {
+        if(window.innerWidth < 1024) handleTStart(e.touches[0].pageX);
+    }, { passive: true });
+    
+    window.addEventListener('mousemove', (e) => handleTMove(e.pageX));
+    window.addEventListener('touchmove', (e) => { 
+        if (isTDragging) handleTMove(e.touches[0].pageX); 
+    }, { passive: false });
+    
+    window.addEventListener('mouseup', () => { isTDragging = false; });
+    window.addEventListener('touchend', () => { isTDragging = false; });
+    window.addEventListener('resize', calcTDimensions);
+    window.addEventListener('load', () => { calcTDimensions(); animateT(); });
 </script>
 
 </body>
