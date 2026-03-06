@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Nicholas - Historias Auténticas en los Alpes Suizos. Fotografía emotiva en Grindelwald, Wengen y Lauterbrunnen.">
+    <title>Nicholas - Historias Auténticas en los Alpes Suizos</title>
+    
+    <!-- Favicon Actualizado -->
+    <link rel="shortcut icon" href="https://alpinelens.ch/assets/favicon.png" type="image/png">
+    
+    <!-- Scripts y Fuentes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Configuración de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'beige-light': "#EDE6DA",
+                        'beige-dark': "#E5D9C6",
+                        'soft-white': "#F4EFE6",
+                        'warm-white': "#F6F2EB",
+                        'title-brown': "#3A3128",
+                        'text-body': "#5C5146",
+                        'text-muted': "#8A8178",
+                        'accent-gold': "#C6A75E",
+                        'testimonio-bg': "#F2EBE1", 
+                        'frame-color': "#F5F0E8",
+                        'dark-inversion': "#4A3A2F",
+                        'footer-start': "#3B2F26",
+                        'footer-end': "#2E241D",
+                        'olive': "#8d9b77" 
+                    },
+                    fontFamily: {
+                        serif: ["Cormorant Garamond", "serif"],
+                        sans: ["Inter", "sans-serif"]
+                    },
+                    letterSpacing: {
+                        'extra-wide': '.4em',
+                        'super-wide': '.6em',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Prevención estricta de scroll lateral */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Animaciones de revelado */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .arch-mask { border-radius: 160px 160px 20px 20px; }
+        
+        /* Estilos Perforaciones Film Rectangulares */
+        .film-rect {
+            width: 12px;
+            height: 8px;
+            border-radius: 2px;
+            background: #121212; 
+            border: 1px solid #2a2a2a; 
+            flex-shrink: 0;
+        }
+
+        /* Estructura del marco cinematográfico */
+        .film-frame {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 50px; 
+            padding-bottom: 0px; 
+        }
+
+        /* Lógica del Logo */
+        .nav-logo {
+            filter: brightness(0) invert(1);
+            transition: filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .header-sticky .nav-logo {
+            filter: none;
+        }
+
+        #main-header:not(.header-sticky) {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .header-sticky { 
+            background-color: rgba(237, 230, 218, 0.98) !important; 
+            color: #3A3128 !important; 
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03); 
+        }
+
+        /* Estilos del Lightbox */
+        #lightbox {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        #lightbox-img {
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        /* Flechas de Navegación */
+        .lightbox-btn {
+            background-color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3A3128;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            border: none;
+            position: absolute;
+            top: 50%;
+            z-index: 110;
+        }
+        
+        #lightbox-prev {
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+        
+        #lightbox-next {
+            right: 0;
+            transform: translate(50%, -50%);
+        }
+
+        .lightbox-btn:hover {
+            background-color: #F4EFE6;
+            color: #C6A75E;
+        }
+
+        .lightbox-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Carrusel Testimonios */
+        .testimonial-carousel {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            overflow: hidden;
+            cursor: grab;
+            touch-action: pan-y;
+            display: flex;
+            align-items: center;
+        }
+
+        .testimonial-track {
+            display: flex;
+            gap: 2rem;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .testimonial-card {
+            width: 85vw;
+            max-width: 320px;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .testimonial-carousel {
+                width: 100%;
+                left: auto;
+                right: auto;
+                margin-left: 0;
+                margin-right: 0;
+                cursor: default;
+                overflow: visible;
+            }
+            .testimonial-track {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
+                width: 100% !important;
+                transform: none !important;
+            }
+            .testimonial-card {
+                width: 100%;
+                max-width: none;
+            }
+            .testimonial-card.clone {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3.2rem; line-height: 1.05; }
+            .arch-mask { border-radius: 120px 120px 15px 15px; }
+            .film-frame { padding-left: 14px; padding-right: 14px; padding-top: 35px; padding-bottom: 0px; }
+            .film-rect { width: 10px; height: 6px; }
+        }
+    </style>
+</head>
+
+<body class="bg-beige-light text-text-body font-sans selection:bg-accent-gold selection:text-white">
+
+<!-- ================= NAVEGACIÓN ================= -->
+<header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-700 text-warm-white">
+    <div id="header-container" class="max-w-5xl mx-auto px-6 py-6 grid grid-cols-2 md:grid-cols-3 items-center transition-all duration-700">
+        <div class="flex justify-start">
+            <a href="https://alpinelens.ch" aria-label="Inicio" class="transition-transform duration-500 hover:scale-105">
+                <img src="https://alpinelens.ch/assets/logo-marron.png" alt="[Logo Alpinelens]" class="h-8 md:h-10 w-auto nav-logo">
+            </a>
+        </div>
+        
+        <nav class="hidden md:flex justify-center gap-10 lg:gap-14 text-[10px] tracking-extra-wide uppercase font-medium">
+            <a href="#portfolio" class="hover:text-accent-gold transition-colors duration-300">PORTFOLIO</a>
+            <a href="#about" class="hover:text-accent-gold transition-colors duration-300">ABOUT</a>
+            <a href="#contact" class="hover:text-accent-gold transition-colors duration-300">CONTACT</a>
+            <a href="#" class="hover:text-accent-gold transition-colors duration-300">EVENTOS</a>
+        </nav>
+
+        <div class="flex justify-end">
+            <button id="menu-toggle" class="md:hidden flex flex-col gap-2 p-2" aria-label="Abrir menú móvil">
+                <span class="w-6 h-[1px] bg-current"></span>
+                <span class="w-4 h-[1px] bg-current self-end"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Menú móvil -->
+<div id="mobile-menu" class="fixed inset-0 z-[60] bg-dark-inversion text-warm-white translate-x-full transition-transform duration-700 md:hidden flex flex-col items-center justify-center gap-10 text-lg tracking-widest uppercase font-serif italic">
+    <button id="menu-close" class="absolute top-8 right-8 text-4xl font-sans p-4" aria-label="Cerrar menú móvil">&times;</button>
+    <a href="#portfolio" class="mobile-link hover:text-accent-gold">PORTFOLIO</a>
+    <a href="#about" class="mobile-link hover:text-accent-gold">ABOUT</a>
+    <a href="#contact" class="mobile-link hover:text-accent-gold">CONTACT</a>
+    <a href="#" class="mobile-link hover:text-accent-gold">EVENTOS</a>
+</div>
+
+<main class="w-full">
+    <!-- ================= 0. HERO ================= -->
+    <section id="home" class="relative h-[100svh] w-full flex items-center justify-center text-center text-warm-white overflow-hidden bg-black">
+        <img src="https://alpinelens.ch/assets/hero.png" 
+             alt="[Imagen de portada de los Alpes]" 
+             class="absolute inset-0 w-full h-full object-cover" 
+             style="object-position: top center;"
+             fetchpriority="high">
+        
+        <div class="absolute inset-0 bg-black/25"></div> 
+
+        <div class="relative z-10 max-w-full px-8 space-y-8 text-white">
+            <div class="flex items-center justify-center gap-6 opacity-70 reveal active">
+                <div class="h-[1px] w-12 bg-white/30"></div>
+                <p class="text-[10px] tracking-super-wide uppercase font-light">JUNGFRAU REGION • SWITZERLAND</p>
+                <div class="h-[1px] w-12 bg-white/30"></div>
+            </div>
+            <div class="space-y-4">
+                <h1 class="hero-title text-5xl md:text-[95px] font-serif font-light leading-[1.1] tracking-tight text-white drop-shadow-2xl">Historias Auténticas</h1>
+                <p class="text-xl md:text-4xl font-serif italic font-light opacity-90 tracking-wide text-white">momentos que permanecen</p>
+            </div>
+            
+            <p class="max-w-xl mx-auto text-sm md:text-base font-light leading-relaxed opacity-80 px-4 tracking-wide text-white">
+                Fotografía auténtica y emotiva para viajeros en los Alpes suizos. Momentos reales, luz natural, recuerdos eternos.
+            </p>
+        </div>
+    </section>
+
+    <!-- ================= 1. EL PORTFOLIO ================= -->
+    <section id="portfolio" class="py-24 md:py-36 px-3 md:px-6 bg-beige-light reveal w-full overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center mb-16 md:mb-28 space-y-6">
+            <div class="flex items-center justify-center gap-5 opacity-40 mb-2">
+                <div class="h-[1px] w-12 bg-title-brown"></div>
+                <p class="text-[10px] tracking-super-wide uppercase text-title-brown font-bold">TRABAJO SELECCIONADO</p>
+                <div class="h-[1px] w-12 bg-title-brown"></div>
+            </div>
+            <h2 class="text-5xl md:text-8xl font-serif text-title-brown font-light leading-none">El Portfolio</h2>
+            <p class="text-base md:text-xl font-serif italic text-text-muted">Emociones reales. Luz natural. Recuerdos para la eternidad.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-x-3 gap-y-12 md:gap-x-16 md:gap-y-24 max-w-5xl mx-auto">
+            <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="lauterbrunnen">
+                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div class="bg-soft-white p-1 md:p-1">
+                        <div class="aspect-[4/5] overflow-hidden bg-beige-dark">
+                            <img src="https://alpinelens.ch/assets/porfolio/lauter/lauter-6.jpg" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="[Sesión en Lauterbrunnen]">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center space-y-1 px-1 max-w-full">
+                    <h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Lauterbrunnen</h3>
+                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">PAREJA • SUIZA</p>
+                </div>
+            </article>
+
+            <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="lucerne">
+                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div class="bg-soft-white p-1 md:p-1">
+                        <div class="aspect-[4/5] overflow-hidden bg-beige-dark">
+                            <img src="https://alpinelens.ch/assets/porfolio/france/france-9.jpg" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="[Sesión en Lucerna]">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center space-y-1 px-1 max-w-full">
+                    <h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Lago Lucerna</h3>
+                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">FAMILIA • SUIZA</p>
+                </div>
+            </article>
+
+            <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="wengen-winter">
+                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div class="bg-soft-white p-1 md:p-1">
+                        <div class="aspect-[4/5] overflow-hidden bg-beige-dark">
+                            <img src="https://alpinelens.ch/assets/porfolio/propuesta/propuesta-6.jpg" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="[Sesión en Wengen Invierno]">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center space-y-1 px-1 max-w-full">
+                    <h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Wengen</h3>
+                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">WINTER TALE • SUIZA</p>
+                </div>
+            </article>
+
+            <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="wengen-autumn">
+                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
+                    <div class="bg-soft-white p-1 md:p-1">
+                        <div class="aspect-[4/5] overflow-hidden bg-beige-dark">
+                            <img src="https://alpinelens.ch/assets/porfolio/wengen/wengen-3.jpg" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="[Sesión en Wengen Otoño]">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center space-y-1 px-1 max-w-full">
+                    <h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Wengen</h3>
+                    <p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">OTOÑO • SUIZA</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ================= 2. LA ESCENA COMPLETA ================= -->
+    <section class="py-24 md:py-32 bg-beige-dark reveal w-full overflow-hidden text-center text-white">
+        <div class="max-w-5xl mx-auto px-8">
+            <div class="mb-20 space-y-5">
+                <div class="flex items-center justify-center gap-5 mb-2">
+                    <div class="h-[1px] w-12 bg-accent-gold/40"></div>
+                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold">VISTA PANORÁMICA</p>
+                    <div class="h-[1px] w-12 bg-accent-gold/40"></div>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-serif text-title-brown font-light leading-none">La escena completa</h2>
+            </div>
+
+            <div class="space-y-20 md:space-y-32">
+                <div class="group">
+                    <div class="aspect-[5198/1734] overflow-hidden shadow-2xl bg-title-brown/5 rounded-sm">
+                        <img src="https://alpinelens.ch/assets/collage/collage-1.jpeg" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" alt="[Escena de montaña 1]">
+                    </div>
+                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic">LAUTERBRUNNEN • HISTORIAS DE MONTAÑA</p>
+                </div>
+
+                <div class="group">
+                    <div class="aspect-[5198/1734] overflow-hidden shadow-2xl bg-title-brown/5 rounded-sm">
+                        <img src="https://alpinelens.ch/assets/collage/collage-2.jpg" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" alt="[Escena de montaña 2]">
+                    </div>
+                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic">VALLE ALPINO • MOMENTOS ÚNICOS</p>
+                </div>
+
+                <div class="group">
+                    <div class="aspect-[5198/1734] overflow-hidden shadow-2xl bg-title-brown/5 rounded-sm">
+                        <img src="https://alpinelens.ch/assets/collage/collage-3.jpeg" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" alt="[Escena de montaña 3]">
+                    </div>
+                    <p class="mt-8 text-[11px] md:text-sm tracking-extra-wide text-title-brown/70 uppercase font-serif font-medium italic">GRINDELWALD • LUZ Y NATURALEZA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 3. HISTORIAS EN MOVIMIENTO ================= -->
+    <section class="py-24 md:py-32 bg-beige-light px-8 reveal w-full overflow-hidden">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-24 space-y-6">
+                <div class="flex items-center justify-center gap-5 mb-2">
+                    <div class="h-[1px] w-12 bg-accent-gold/40"></div>
+                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold">CINE ANALÓGICO</p>
+                    <div class="h-[1px] w-12 bg-accent-gold/40"></div>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-serif text-title-brown font-light leading-none">Historias en Movimiento</h2>
+                <p class="text-lg text-text-muted font-serif italic">Cada segundo, una emoción capturada para siempre.</p>
+            </div>
+
+            <div class="space-y-20 md:space-y-32">
+                <!-- Video 1 -->
+                <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col min-h-[480px] md:min-h-[580px]">
+                    <!-- TOP PERFORATIONS (Centradas: margen 50px - rect 8px = 42px / 2 = 21px top) -->
+                    <div class="flex gap-2 absolute top-[21px] left-[20px] max-sm:left-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    <div class="flex gap-2 absolute top-[21px] right-[20px] max-sm:right-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    
+                    <div class="aspect-[16/9] overflow-hidden w-full relative z-10">
+                        <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
+                            <source src="https://alpinelens.ch/assets/videos/video-1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <!-- ÁREA INFERIOR TOTAL -->
+                    <div class="flex-grow flex flex-col bg-black relative">
+                        <!-- Perforaciones Inferiores (Misma distancia que arriba: 21px del video) -->
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[15px]">
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                        </div>
+
+                        <!-- Texto alineado verticalmente al centro del TOTAL del margen inferior -->
+                        <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2">
+                            <p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold">PAREJA • VALLE DE LAUTERBRUNNEN</p>
+                            <h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Alpine Story</h4>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Video 2 -->
+                <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col min-h-[480px] md:min-h-[580px]">
+                    <div class="flex gap-2 absolute top-[21px] left-[20px] max-sm:left-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    <div class="flex gap-2 absolute top-[21px] right-[20px] max-sm:right-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    
+                    <div class="aspect-[16/9] overflow-hidden w-full relative z-10">
+                        <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
+                            <source src="https://alpinelens.ch/assets/videos/video-2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <div class="flex-grow flex flex-col bg-black relative">
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[15px]">
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2">
+                            <p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold">PAREJA • WENGEN</p>
+                            <h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Winter Tale</h4>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Video 3 -->
+                <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col min-h-[480px] md:min-h-[580px]">
+                    <div class="flex gap-2 absolute top-[21px] left-[20px] max-sm:left-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    <div class="flex gap-2 absolute top-[21px] right-[20px] max-sm:right-[14px] max-sm:top-[14px]">
+                        <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                    </div>
+                    
+                    <div class="aspect-[16/9] overflow-hidden w-full relative z-10">
+                        <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline>
+                            <source src="https://alpinelens.ch/assets/videos/video-3.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <div class="flex-grow flex flex-col bg-black relative">
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[15px]">
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2">
+                            <p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold text-center">SESIÓN PAREJA • INTERLAKEN</p>
+                            <h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Interlaken</h4>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 4. EL FOTÓGRAFO ================= -->
+    <section id="about" class="bg-beige-dark py-28 px-8 reveal w-full overflow-hidden">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            
+            <div class="relative w-full flex justify-center order-2 md:order-1">
+                <div class="relative w-full max-sm:max-w-xs aspect-[3/4]">
+                    <div class="arch-mask w-full h-full overflow-hidden bg-soft-white shadow-2xl">
+                        <img id="about-img" src="https://alpinelens.ch/assets/fotografo.jpg" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-[3s]" 
+                             alt="[Nicholas el fotógrafo]"
+                             onerror="this.src='https://moon-light-yoga.com/alpine-lens/assets/foto-mia/IMG_6226.JPG'">
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-10 order-1 md:order-2">
+                <header class="space-y-5">
+                    <p class="tracking-super-wide uppercase text-[10px] text-text-muted font-bold flex items-center gap-5">
+                        <span class="w-12 h-[1px] bg-title-brown/30"></span> EL FOTÓGRAFO
+                    </p>
+                    <div class="space-y-2">
+                        <h2 class="text-5xl md:text-7xl font-serif text-title-brown font-light leading-none">Creando recuerdos</h2>
+                        <p class="text-4xl md:text-5xl font-serif italic text-olive leading-none">sobre las nubes</p>
+                    </div>
+                </header>
+
+                <div class="space-y-8 text-text-body font-light text-base md:text-lg leading-relaxed max-w-md text-left">
+                    <p>Vivo en el corazón de la Región de Jungfrau. Durante más de ocho años he capturado la esencia de los Alpes suizos a través de los ojos de quienes nos visitan desde todo el mundo.</p>
+                    <blockquote class="italic text-title-brown font-serif text-2xl border-l-2 border-accent-gold/30 pl-8 py-2">“No busco la pose perfecta. Busco el instante verdadero.”</blockquote>
+                </div>
+
+                <div class="grid grid-cols-2 gap-10 pt-10 border-t border-title-brown/10 uppercase">
+                    <div class="space-y-3">
+                        <p class="uppercase tracking-extra-wide text-[9px] text-text-muted font-bold">Luz natural</p>
+                        <p class="text-xs text-text-body leading-relaxed opacity-80 font-sans normal-case">Especialista en la magia de la luz alpina</p>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="uppercase tracking-extra-wide text-[9px] text-text-muted font-bold">Lugares exclusivos</p>
+                        <p class="text-xs text-text-body leading-relaxed opacity-80 font-sans normal-case">Acceso a miradores únicos y privados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 5. TESTIMONIOS ================= -->
+    <section class="py-28 bg-beige-light reveal w-full overflow-hidden">
+        <div class="max-w-6xl mx-auto px-8">
+            <div class="text-center mb-24">
+                <div class="flex items-center justify-center gap-5 mb-5">
+                    <div class="h-[1px] w-12 bg-accent-gold/40"></div>
+                    <p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold">TESTIMONIOS</p>
+                    <div class="h-[1px] w-12 bg-accent-gold/40"></div>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-serif text-title-brown font-light leading-tight">Lo que dicen los clientes</h2>
+            </div>
+            
+            <div id="test-carousel" class="testimonial-carousel">
+                <div id="test-track" class="testimonial-track">
+                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Nicholas tiene una energía y una filosofía tan entusiastas que hicieron que la sesión fuera muy divertida y cómoda.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Amber Kohl</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Nicholas hizo un trabajo excelente. Es muy minucioso y tiene mucha paciencia. Nos hizo sentir cómodos.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Deepa Rawat</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “¡No podríamos haber pedido una mejor experiencia! Trabajar con él fue un sueño. Las fotos son absolutamente impresionantes.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">I.S</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm hover:shadow-md transition-shadow h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Estamos muy agradecidos de haber conocido a Nicholas. Se nota que le apasiona su trabajo. ¡No duden en contactarlo!”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Whitney Erickson</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card clone bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Nicholas tiene una energía y una filosofía tan entusiastas que hicieron que la sesión fuera muy divertida y cómoda.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Amber Kohl</cite>
+                        </footer>
+                    </article>
+                    <article class="testimonial-card clone bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full">
+                        <div class="text-accent-gold mb-8 text-[10px] tracking-widest">★★★★★</div>
+                        <blockquote class="text-text-body italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">
+                            “Nicholas hizo un trabajo excelente. Es muy minucioso y tiene mucha paciencia. Nos hizo sentir cómodos.”
+                        </blockquote>
+                        <footer class="border-t border-title-brown/10 pt-8 mt-auto">
+                            <cite class="text-[11px] tracking-extra-wide font-bold uppercase text-title-brown not-italic">Deepa Rawat</cite>
+                        </footer>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 6. CONTACTO ================= -->
+    <section id="contact" class="py-28 px-8 bg-beige-dark reveal w-full overflow-hidden">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-24 items-start">
+            <div class="space-y-12">
+                <header class="space-y-8">
+                    <p class="tracking-super-wide uppercase text-[10px] text-text-muted font-bold flex items-center gap-5">
+                        <span class="w-12 h-[1px] bg-title-brown/30"></span> CONTACTO
+                    </p>
+                    <div class="space-y-2 text-left">
+                        <h2 class="text-5xl md:text-7xl font-serif text-title-brown leading-none">Reserva tu</h2>
+                        <p class="text-5xl md:text-7xl font-serif italic text-olive leading-none">sesión alpina</p>
+                    </div>
+                    <p class="text-sm md:text-base text-text-body font-light leading-relaxed max-sm:max-w-xs text-left font-sans">
+                        Respondo personalmente a cada consulta en menos de 24 horas. Cuéntame sobre tu visita y el tipo de recuerdos que deseas crear.
+                    </p>
+                </header>
+
+                <div class="space-y-8 text-[10px] tracking-extra-wide uppercase font-medium">
+                    <div class="flex items-start gap-8 group">
+                        <span class="mt-3 h-[1px] w-10 bg-title-brown/20 group-hover:w-16 transition-all duration-500"></span>
+                        <div>
+                            <p class="text-text-muted mb-1 text-[8px] font-bold">Ubicación</p>
+                            <p class="text-title-brown text-sm font-bold">Grindelwald, Suiza</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-8 group">
+                        <span class="mt-3 h-[1px] w-10 bg-title-brown/20 group-hover:w-16 transition-all duration-500"></span>
+                        <div>
+                            <p class="text-text-muted mb-1 text-[8px] font-bold">Email</p>
+                            <p class="text-title-brown text-sm font-bold underline decoration-accent-gold/40 lowercase font-sans">Alpinphotography@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-8 group">
+                        <span class="mt-3 h-[1px] w-10 bg-title-brown/20 group-hover:w-16 transition-all duration-500"></span>
+                        <div>
+                            <p class="text-text-muted mb-1 text-[8px] font-bold">WhatsApp</p>
+                            <p class="text-title-brown text-sm font-bold">+41 76 791 13 83</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-warm-white p-10 md:p-14 border border-beige-dark shadow-2xl rounded-sm">
+                <form class="space-y-10" action="#" method="POST">
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <div class="space-y-3 text-left">
+                            <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold">Nombre *</label>
+                            <input type="text" required placeholder="Tu nombre" class="w-full py-4 text-sm bg-transparent border-b border-title-brown/10 focus:border-accent-gold outline-none transition-colors">
+                        </div>
+                        <div class="space-y-3 text-left">
+                            <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold">Email *</label>
+                            <input type="email" required placeholder="tu@email.com" class="w-full py-4 text-sm bg-transparent border-b border-title-brown/10 focus:border-accent-gold outline-none transition-colors">
+                        </div>
+                    </div>
+                    <div class="space-y-3 text-left">
+                        <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold block">Fecha deseada</label>
+                        <input type="date" class="w-full py-4 text-sm bg-transparent border-b border-title-brown/10 outline-none opacity-50">
+                    </div>
+                    <div class="space-y-3 text-left">
+                        <label class="text-[9px] tracking-super-wide uppercase text-text-muted font-bold">Tu Visión</label>
+                        <textarea rows="3" placeholder="Cuéntame sobre tu visión..." class="w-full py-4 text-sm bg-transparent border-b border-title-brown/10 focus:border-accent-gold outline-none transition-colors resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-title-brown text-warm-white py-5 text-[10px] tracking-super-wide font-bold uppercase hover:bg-olive transition-all shadow-xl">Solicitar reserva</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="bg-gradient-to-b from-footer-start to-footer-end text-warm-white py-20 px-8 w-full overflow-hidden">
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16">
+        <div class="text-center lg:text-left space-y-5">
+            <a href="https://alpinelens.ch" class="mx-auto lg:mx-0 inline-block transition-transform hover:scale-110" aria-label="Volver arriba">
+                <img src="https://alpinelens.ch/assets/logo-marron.png" alt="[Logo pie de página]" class="h-12 w-auto brightness-0 invert opacity-90">
+            </a>
+            <p class="uppercase tracking-super-wide text-[9px] text-warm-white/40 font-bold uppercase">Jungfrau Region · Suiza</p>
+        </div>
+
+        <nav class="flex flex-wrap justify-center gap-x-12 gap-y-6 tracking-extra-wide uppercase text-[10px] text-warm-white/60 font-medium uppercase">
+            <a href="#portfolio" class="hover:text-white transition-colors">Portfolio</a>
+            <a href="#about" class="hover:text-white transition-colors">Sobre mí</a>
+            <a href="#contact" class="hover:text-white transition-colors">Contacto</a>
+        </nav>
+
+        <div class="text-xs tracking-widest text-warm-white/30 text-center lg:text-right font-light italic font-serif">
+            <p>Hecho con alma en los Alpes suizos</p>
+        </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto border-t border-white/5 mt-20 pt-10 flex flex-col md:flex-row justify-between gap-6 text-[9px] text-white/20 tracking-extra-wide uppercase">
+        <span class="font-bold uppercase">© 2025 ALPIN LENS PHOTOGRAPHY</span>
+        <span class="italic font-serif text-sm">Historias de montaña escritas con luz</span>
+    </div>
+</footer>
+
+<!-- ================= LIGHTBOX PREMIUM ================= -->
+<div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center px-4 lg:p-32">
+    <button id="lightbox-close" class="absolute top-8 right-8 text-white text-5xl font-light hover:text-accent-gold transition-colors z-[110]" aria-label="Cerrar">&times;</button>
+    
+    <div class="relative w-full lg:max-w-3xl h-full flex items-center justify-center">
+        <div class="w-full flex flex-col items-center gap-6 md:gap-8 px-4 pointer-events-none">
+            <div class="relative pointer-events-auto w-full max-w-full lg:max-w-2xl">
+                <button id="lightbox-prev" class="lightbox-btn" aria-label="Anterior">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="lightbox-next" class="lightbox-btn" aria-label="Siguiente">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+                <div class="relative aspect-[3/2] overflow-hidden shadow-2xl bg-black/40">
+                    <img id="lightbox-img" src="" alt="" class="w-full h-full object-contain opacity-0 transition-opacity duration-300">
+                </div>
+            </div>
+            <div class="text-center space-y-2 md:space-y-3 max-w-xl pointer-events-auto">
+                <h4 id="lightbox-title" class="text-white text-xl md:text-3xl font-serif font-light tracking-widest uppercase"></h4>
+                <p id="lightbox-desc" class="text-accent-gold text-[9px] md:text-[11px] tracking-super-wide uppercase font-bold"></p>
+            </div>
+        </div>
+    </div>
+    <div id="lightbox-counter" class="absolute bottom-10 text-white/20 text-[9px] md:text-[10px] tracking-super-wide uppercase font-bold">1 / 1</div>
+</div>
+
+<script>
+    const galleriesData = {
+        "lauterbrunnen": [
+            { src: "https://alpinelens.ch/assets/porfolio/lauter/lauter-1.jpg", title: "Lauterbrunnen", desc: "Alpine Session • Suiza" },
+            { src: "https://alpinelens.ch/assets/porfolio/lauter/lauter-2.jpg", title: "Lauterbrunnen", desc: "Alpine Session • Suiza" },
+            { src: "https://alpinelens.ch/assets/porfolio/lauter/lauter-3.jpg", title: "Lauterbrunnen", desc: "Alpine Session • Suiza" },
+            { src: "https://alpinelens.ch/assets/porfolio/lauter/lauter-4.jpg", title: "Lauterbrunnen", desc: "Alpine Session • Suiza" },
+            { src: "https://alpinelens.ch/assets/porfolio/lauter/lauter-5.jpg", title: "Lauterbrunnen", desc: "Alpine Session • Suiza" },
+            { src: "https://alpinelens.ch/assets/porfolio/lauter/lauter-6.jpg", title: "Lauterbrunnen", desc: "Alpine Session • Suiza" }
+        ],
+        "lucerne": Array.from({length: 9}, (_, i) => ({ 
+            src: `https://alpinelens.ch/assets/porfolio/france/france-${i+1}.jpg`, 
+            title: "Lago Lucerna", 
+            desc: "Familia • Suiza" 
+        })),
+        "wengen-winter": Array.from({length: 6}, (_, i) => ({ 
+            src: `https://alpinelens.ch/assets/porfolio/propuesta/propuesta-${i+1}.jpg`, 
+            title: "Wengen", 
+            desc: "Winter Tale • Suiza" 
+        })),
+        "wengen-autumn": Array.from({length: 8}, (_, i) => ({ 
+            src: `https://alpinelens.ch/assets/porfolio/wengen/wengen-${i+1}.jpg`, 
+            title: "Wengen", 
+            desc: "Otoño • Suiza" 
+        }))
+    };
+
+    let currentGalleryId = null;
+    let currentPhotoIndex = 0;
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDesc = document.getElementById('lightbox-desc');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+    const header = document.getElementById('main-header');
+    const headerContainer = document.getElementById('header-container');
+
+    function preloadSpecificGallery(id) {
+        if (!galleriesData[id]) return;
+        galleriesData[id].forEach(item => {
+            const img = new Image();
+            img.src = item.src;
+        });
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY > 50;
+        header.classList.toggle('header-sticky', scrolled);
+        headerContainer.classList.toggle('py-4', scrolled);
+        headerContainer.classList.toggle('py-6', !scrolled);
+    }, { passive: true });
+
+    const updateLightbox = () => {
+        const data = galleriesData[currentGalleryId][currentPhotoIndex];
+        lightboxImg.style.opacity = '0';
+        setTimeout(() => {
+            lightboxImg.src = data.src;
+            lightboxImg.onload = () => lightboxImg.style.opacity = '1';
+            lightboxTitle.textContent = data.title;
+            lightboxDesc.textContent = data.desc;
+            lightboxCounter.textContent = `${currentPhotoIndex + 1} / ${galleriesData[currentGalleryId].length}`;
+        }, 100);
+    };
+
+    const openLightbox = (id) => {
+        preloadSpecificGallery(id);
+        currentGalleryId = id;
+        currentPhotoIndex = 0;
+        updateLightbox();
+        const isMulti = galleriesData[id].length > 1;
+        document.getElementById('lightbox-prev').style.display = isMulti ? 'flex' : 'none';
+        document.getElementById('lightbox-next').style.display = isMulti ? 'flex' : 'none';
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeLightbox = () => {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+        item.addEventListener('click', () => openLightbox(item.dataset.gallery));
+    });
+
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox-next').addEventListener('click', (e) => { 
+        e.stopPropagation(); currentPhotoIndex = (currentPhotoIndex + 1) % galleriesData[currentGalleryId].length; updateLightbox(); 
+    });
+    document.getElementById('lightbox-prev').addEventListener('click', (e) => { 
+        e.stopPropagation(); currentPhotoIndex = (currentPhotoIndex - 1 + galleriesData[currentGalleryId].length) % galleriesData[currentGalleryId].length; updateLightbox(); 
+    });
+    
+    lightbox.addEventListener('click', (e) => {
+        const isImage = e.target.id === 'lightbox-img';
+        const isButton = e.target.closest('button');
+        if (!isImage && !isButton) {
+            closeLightbox();
+        }
+    });
+
+    const menu = document.getElementById('mobile-menu');
+    const toggle = document.getElementById('menu-toggle');
+    const closeBtn = document.getElementById('menu-close');
+
+    const handleMenu = () => {
+        const isOpen = menu.classList.contains('translate-x-0');
+        menu.classList.toggle('translate-x-full', isOpen);
+        menu.classList.toggle('translate-x-0', !isOpen);
+        document.body.style.overflow = isOpen ? '' : 'hidden';
+    };
+
+    toggle.addEventListener('click', handleMenu);
+    closeBtn.addEventListener('click', handleMenu);
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', handleMenu));
+
+    document.addEventListener('keydown', (e) => {
+        if (lightbox.classList.contains('active')) {
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') document.getElementById('lightbox-next').click();
+            if (e.key === 'ArrowLeft') document.getElementById('lightbox-prev').click();
+        }
+    });
+
+    /* LÓGICA CARRUSEL TESTIMONIOS (MÓVIL) */
+    const testTrack = document.getElementById('test-track');
+    const testCarousel = document.getElementById('test-carousel');
+    let currentT = 0, targetT = 0, isTDragging = false, startT = 0, autoTSpeed = 0.6, dragTVelocity = 0, totalTWidth = 0;
+    
+    const lerpT = (start, end, t) => start * (1 - t) + end * t;
+
+    const calcTDimensions = () => {
+        if (window.innerWidth >= 1024) return;
+        const items = document.querySelectorAll('.testimonial-card:not(.clone)');
+        if (items.length > 0) {
+            const itemWidth = items[0].getBoundingClientRect().width;
+            const gap = 32; 
+            totalTWidth = (itemWidth + gap) * items.length;
+        }
+    };
+
+    const animateT = () => {
+        if (window.innerWidth >= 1024) {
+            requestAnimationFrame(animateT);
+            return;
+        }
+        if (!isTDragging) {
+            targetT += autoTSpeed;
+            if (Math.abs(dragTVelocity) > 0.1) {
+                targetT += dragTVelocity;
+                dragTVelocity *= 0.95;
+            }
+        }
+        currentT = lerpT(currentT, targetT, 0.2);
+        if (totalTWidth > 0) {
+            if (currentT >= totalTWidth) {
+                currentT -= totalTWidth;
+                targetT -= totalTWidth;
+            } else if (currentT < 0) {
+                currentT += totalTWidth;
+                targetT += totalTWidth;
+            }
+        }
+        testTrack.style.transform = `translate3d(-${currentT}px, 0, 0)`;
+        requestAnimationFrame(animateT);
+    };
+
+    const handleTStart = (x) => {
+        isTDragging = true;
+        startT = x;
+        dragTVelocity = 0;
+    };
+
+    const handleTMove = (x) => {
+        if (!isTDragging) return;
+        const delta = (startT - x) * 1.3;
+        targetT += delta;
+        dragTVelocity = delta;
+        startT = x;
+    };
+
+    testCarousel.addEventListener('mousedown', (e) => { 
+        if(window.innerWidth < 1024) { e.preventDefault(); handleTStart(e.pageX); }
+    });
+    testCarousel.addEventListener('touchstart', (e) => {
+        if(window.innerWidth < 1024) handleTStart(e.touches[0].pageX);
+    }, { passive: true });
+    
+    window.addEventListener('mousemove', (e) => handleTMove(e.pageX));
+    window.addEventListener('touchmove', (e) => { 
+        if (isTDragging) handleTMove(e.touches[0].pageX); 
+    }, { passive: false });
+    
+    window.addEventListener('mouseup', () => { isTDragging = false; });
+    window.addEventListener('touchend', () => { isTDragging = false; });
+    window.addEventListener('resize', calcTDimensions);
+    window.addEventListener('load', () => { calcTDimensions(); animateT(); });
+</script>
+
+</body>
+</html>
