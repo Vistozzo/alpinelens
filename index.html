@@ -34,6 +34,27 @@
             }
         }
     </script>
+
+    <!-- Optimizaciones de componentes Tailwind -->
+    <style type="text/tailwindcss">
+        @layer components {
+            /* Portfolio Abstracción */
+            .pf-card { @apply bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2; }
+            .pf-wrap { @apply bg-soft-white p-1; }
+            .pf-inner { @apply aspect-[4/5] overflow-hidden bg-beige-dark; }
+            .pf-img { @apply w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000; }
+            .pf-text { @apply text-center space-y-1 px-1; }
+            .pf-h3 { @apply font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight; }
+            .pf-p { @apply text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold; }
+            
+            /* Testimonios Abstracción */
+            .t-card { @apply bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full; }
+            .t-stars { @apply text-accent-gold mb-8 text-[10px]; }
+            .t-quote { @apply italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95; }
+            .t-footer { @apply border-t pt-8 mt-auto; }
+            .t-author { @apply text-[11px] font-bold uppercase text-title-brown not-italic; }
+        }
+    </style>
     
     <style>
         html { scroll-behavior: smooth; }
@@ -180,28 +201,20 @@
 
         <div class="grid grid-cols-2 gap-x-3 gap-y-8 md:gap-x-16 md:gap-y-16 max-w-6xl mx-auto px-6 md:px-8">
             <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="lauterbrunnen">
-                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
-                    <div class="bg-soft-white p-1"><div class="aspect-[4/5] overflow-hidden bg-beige-dark"><img src="https://alpinelens.ch/assets/porfolio/lauter/lauter-6.jpg" loading="lazy" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="Lauterbrunnen"></div></div>
-                </div>
-                <div class="text-center space-y-1 px-1"><h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Lauterbrunnen</h3><p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">PAREJA • SUIZA</p></div>
+                <div class="pf-card"><div class="pf-wrap"><div class="pf-inner"><img src="https://alpinelens.ch/assets/porfolio/lauter/lauter-6.jpg" loading="lazy" class="pf-img" alt="Lauterbrunnen"></div></div></div>
+                <div class="pf-text"><h3 class="pf-h3">Lauterbrunnen</h3><p class="pf-p">PAREJA • SUIZA</p></div>
             </article>
             <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="lucerne">
-                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
-                    <div class="bg-soft-white p-1"><div class="aspect-[4/5] overflow-hidden bg-beige-dark"><img src="https://alpinelens.ch/assets/porfolio/france/france-9.jpg" loading="lazy" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="Lucerna"></div></div>
-                </div>
-                <div class="text-center space-y-1 px-1"><h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Lago Lucerna</h3><p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">FAMILIA • SUIZA</p></div>
+                <div class="pf-card"><div class="pf-wrap"><div class="pf-inner"><img src="https://alpinelens.ch/assets/porfolio/france/france-9.jpg" loading="lazy" class="pf-img" alt="Lucerna"></div></div></div>
+                <div class="pf-text"><h3 class="pf-h3">Lago Lucerna</h3><p class="pf-p">FAMILIA • SUIZA</p></div>
             </article>
             <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="wengen-winter">
-                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
-                    <div class="bg-soft-white p-1"><div class="aspect-[4/5] overflow-hidden bg-beige-dark"><img src="https://alpinelens.ch/assets/porfolio/propuesta/propuesta-6.jpg" loading="lazy" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="Wengen Winter"></div></div>
-                </div>
-                <div class="text-center space-y-1 px-1"><h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Wengen</h3><p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">WINTER TALE • SUIZA</p></div>
+                <div class="pf-card"><div class="pf-wrap"><div class="pf-inner"><img src="https://alpinelens.ch/assets/porfolio/propuesta/propuesta-6.jpg" loading="lazy" class="pf-img" alt="Wengen Winter"></div></div></div>
+                <div class="pf-text"><h3 class="pf-h3">Wengen</h3><p class="pf-p">WINTER TALE • SUIZA</p></div>
             </article>
             <article class="group space-y-3 md:space-y-5 cursor-pointer portfolio-item" data-gallery="wengen-autumn">
-                <div class="bg-frame-color p-1.5 md:p-2 shadow-sm transition-transform duration-700 group-hover:shadow-xl group-hover:-translate-y-2">
-                    <div class="bg-soft-white p-1"><div class="aspect-[4/5] overflow-hidden bg-beige-dark"><img src="https://alpinelens.ch/assets/porfolio/wengen/wengen-3.jpg" loading="lazy" class="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="Wengen Otoño"></div></div>
-                </div>
-                <div class="text-center space-y-1 px-1"><h3 class="font-serif text-lg md:text-3xl text-title-brown font-light tracking-wide uppercase leading-tight">Wengen</h3><p class="text-[7px] md:text-[10px] tracking-extra-wide text-accent-gold font-bold">OTOÑO • SUIZA</p></div>
+                <div class="pf-card"><div class="pf-wrap"><div class="pf-inner"><img src="https://alpinelens.ch/assets/porfolio/wengen/wengen-3.jpg" loading="lazy" class="pf-img" alt="Wengen Otoño"></div></div></div>
+                <div class="pf-text"><h3 class="pf-h3">Wengen</h3><p class="pf-p">OTOÑO • SUIZA</p></div>
             </article>
         </div>
     </section>
@@ -232,31 +245,31 @@
             <div class="space-y-12 md:space-y-20">
                 <!-- Video 1 -->
                 <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col h-auto md:min-h-[580px]">
-                    <div class="flex gap-1.5 md:gap-2 absolute top-[21px] left-[20px] max-sm:left-[10px] max-sm:top-[10px]"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div>
-                    <div class="flex gap-1.5 md:gap-2 absolute top-[21px] right-[20px] max-sm:right-[10px] max-sm:top-[10px]"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div>
+                    <div class="film-holes flex gap-1.5 md:gap-2 absolute top-[21px] left-[20px] max-sm:left-[10px] max-sm:top-[10px]"></div>
+                    <div class="film-holes flex gap-1.5 md:gap-2 absolute top-[21px] right-[20px] max-sm:right-[10px] max-sm:top-[10px]"></div>
                     <div class="aspect-[16/9] overflow-hidden w-full relative z-10"><video class="smart-video w-full h-full object-cover opacity-90" muted loop playsinline><source src="https://alpinelens.ch/assets/videos/video-1.mp4" type="video/mp4"></video></div>
                     <div class="flex-grow flex flex-col bg-black relative">
-                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[10px]"><div class="flex gap-1.5 md:gap-2"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div><div class="flex gap-1.5 md:gap-2"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div></div>
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[10px]"><div class="film-holes flex gap-1.5 md:gap-2"></div><div class="film-holes flex gap-1.5 md:gap-2"></div></div>
                         <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2 pt-[35px] pb-[20px] md:py-0"><p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold">PAREJA • VALLE DE LAUTERBRUNNEN</p><h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Alpine Story</h4></div>
                     </div>
                 </article>
                 <!-- Video 2 -->
                 <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col h-auto md:min-h-[580px]">
-                    <div class="flex gap-1.5 md:gap-2 absolute top-[21px] left-[20px] max-sm:left-[10px] max-sm:top-[10px]"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div>
-                    <div class="flex gap-1.5 md:gap-2 absolute top-[21px] right-[20px] max-sm:right-[10px] max-sm:top-[10px]"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div>
+                    <div class="film-holes flex gap-1.5 md:gap-2 absolute top-[21px] left-[20px] max-sm:left-[10px] max-sm:top-[10px]"></div>
+                    <div class="film-holes flex gap-1.5 md:gap-2 absolute top-[21px] right-[20px] max-sm:right-[10px] max-sm:top-[10px]"></div>
                     <div class="aspect-[16/9] overflow-hidden w-full relative z-10"><video class="smart-video w-full h-full object-cover opacity-90" muted loop playsinline><source src="https://alpinelens.ch/assets/videos/video-2.mp4" type="video/mp4"></video></div>
                     <div class="flex-grow flex flex-col bg-black relative">
-                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[10px]"><div class="flex gap-1.5 md:gap-2"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div><div class="flex gap-1.5 md:gap-2"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div></div>
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[10px]"><div class="film-holes flex gap-1.5 md:gap-2"></div><div class="film-holes flex gap-1.5 md:gap-2"></div></div>
                         <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2 pt-[35px] pb-[20px] md:py-0"><p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold">PAREJA • WENGEN</p><h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Winter Tale</h4></div>
                     </div>
                 </article>
                 <!-- Video 3 -->
                 <article class="relative bg-black film-frame shadow-2xl rounded-sm overflow-hidden flex flex-col h-auto md:min-h-[580px]">
-                    <div class="flex gap-1.5 md:gap-2 absolute top-[21px] left-[20px] max-sm:left-[10px] max-sm:top-[10px]"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div>
-                    <div class="flex gap-1.5 md:gap-2 absolute top-[21px] right-[20px] max-sm:right-[10px] max-sm:top-[10px]"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div>
+                    <div class="film-holes flex gap-1.5 md:gap-2 absolute top-[21px] left-[20px] max-sm:left-[10px] max-sm:top-[10px]"></div>
+                    <div class="film-holes flex gap-1.5 md:gap-2 absolute top-[21px] right-[20px] max-sm:right-[10px] max-sm:top-[10px]"></div>
                     <div class="aspect-[16/9] overflow-hidden w-full relative z-10"><video class="smart-video w-full h-full object-cover opacity-90" muted loop playsinline><source src="https://alpinelens.ch/assets/videos/video-3.mp4" type="video/mp4"></video></div>
                     <div class="flex-grow flex flex-col bg-black relative">
-                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[10px]"><div class="flex gap-1.5 md:gap-2"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div><div class="flex gap-1.5 md:gap-2"><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div><div class="film-rect"></div></div></div>
+                        <div class="absolute top-[21px] left-0 right-0 flex justify-between px-0 max-sm:top-[10px]"><div class="film-holes flex gap-1.5 md:gap-2"></div><div class="film-holes flex gap-1.5 md:gap-2"></div></div>
                         <div class="flex-grow flex flex-col justify-center text-center px-4 space-y-2 pt-[35px] pb-[20px] md:py-0"><p class="text-[8px] md:text-[9px] tracking-extra-wide text-white/40 uppercase font-bold text-center">SESIÓN PAREJA • INTERLAKEN</p><h4 class="text-white text-lg md:text-2xl font-serif font-light italic uppercase tracking-widest">Interlaken</h4></div>
                     </div>
                 </article>
@@ -284,10 +297,10 @@
             <div class="text-center mb-12 md:mb-20"><div class="flex items-center justify-center gap-5 mb-5"><div class="h-[1px] w-12 bg-accent-gold/40"></div><p class="text-[10px] tracking-super-wide uppercase text-accent-gold font-bold">TESTIMONIOS</p><div class="h-[1px] w-12 bg-accent-gold/40"></div></div><h2 class="text-5xl md:text-7xl font-serif text-title-brown font-light leading-tight">Lo que dicen los clientes</h2></div>
             <div id="test-carousel" class="carousel-container px-4">
                 <div id="test-track" class="carousel-track">
-                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full"><div class="text-accent-gold mb-8 text-[10px]">★★★★★</div><blockquote class="italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">“Nicholas tiene una energía y una filosofía tan entusiastas que hicieron que la sesión fuera muy divertida y cómoda.”</blockquote><footer class="border-t pt-8 mt-auto"><cite class="text-[11px] font-bold uppercase text-title-brown not-italic">Amber Kohl</cite></footer></article>
-                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full"><div class="text-accent-gold mb-8 text-[10px]">★★★★★</div><blockquote class="italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">“Nicholas hizo un trabajo excelente. Es muy minucioso y tiene mucha paciencia. Nos hizo sentir cómodos.”</blockquote><footer class="border-t pt-8 mt-auto"><cite class="text-[11px] font-bold uppercase text-title-brown not-italic">Deepa Rawat</cite></footer></article>
-                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full"><div class="text-accent-gold mb-8 text-[10px]">★★★★★</div><blockquote class="italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">“¡No podríamos haber pedido una mejor experiencia! Trabajar con él fue un sueño. Las fotos son absolutamente impresionantes.”</blockquote><footer class="border-t pt-8 mt-auto"><cite class="text-[11px] font-bold uppercase text-title-brown not-italic">I.S</cite></footer></article>
-                    <article class="testimonial-card bg-testimonio-bg p-10 flex flex-col border border-title-brown/5 shadow-sm h-full"><div class="text-accent-gold mb-8 text-[10px]">★★★★★</div><blockquote class="italic font-serif leading-relaxed mb-12 flex-grow text-base opacity-95">“Estamos muy agradecidos de haber conocido a Nicholas. Se nota que le apasiona su trabajo. ¡No duden en contactarlo!”</blockquote><footer class="border-t pt-8 mt-auto"><cite class="text-[11px] font-bold uppercase text-title-brown not-italic">Whitney Erickson</cite></footer></article>
+                    <article class="testimonial-card t-card"><div class="t-stars">★★★★★</div><blockquote class="t-quote">“Nicholas tiene una energía y una filosofía tan entusiastas que hicieron que la sesión fuera muy divertida y cómoda.”</blockquote><footer class="t-footer"><cite class="t-author">Amber Kohl</cite></footer></article>
+                    <article class="testimonial-card t-card"><div class="t-stars">★★★★★</div><blockquote class="t-quote">“Nicholas hizo un trabajo excelente. Es muy minucioso y tiene mucha paciencia. Nos hizo sentir cómodos.”</blockquote><footer class="t-footer"><cite class="t-author">Deepa Rawat</cite></footer></article>
+                    <article class="testimonial-card t-card"><div class="t-stars">★★★★★</div><blockquote class="t-quote">“¡No podríamos haber pedido una mejor experiencia! Trabajar con él fue un sueño. Las fotos son absolutamente impresionantes.”</blockquote><footer class="t-footer"><cite class="t-author">I.S</cite></footer></article>
+                    <article class="testimonial-card t-card"><div class="t-stars">★★★★★</div><blockquote class="t-quote">“Estamos muy agradecidos de haber conocido a Nicholas. Se nota que le apasiona su trabajo. ¡No duden en contactarlo!”</blockquote><footer class="t-footer"><cite class="t-author">Whitney Erickson</cite></footer></article>
                 </div>
             </div>
         </div>
@@ -361,6 +374,11 @@
 </div>
 
 <script>
+    // Inyectar perforaciones de film analógico (Optimización HTML)
+    document.querySelectorAll('.film-holes').forEach(container => {
+        container.innerHTML = Array(7).fill('<div class="film-rect"></div>').join('');
+    });
+
     const getGallery = (path, count, title, desc) => Array.from({length: count}, (_, i) => ({
         src: `https://alpinelens.ch/assets/porfolio/${path}/${path}-${i+1}.jpg`, title, desc
     }));
@@ -406,7 +424,7 @@
             track.appendChild(div);
         });
 
-        // Loop infinito
+        // Loop infinito (Corregido, sin duplicaciones de código)
         items.slice(0, 2).forEach(item => {
             const div = document.createElement('div');
             div.className = 'lb-carousel-item clone';
@@ -430,7 +448,7 @@
         animate();
     }
 
-    // Soporte para drag manual sincronizado (movido fuera de la función para que no se dupliquen eventos)
+    // Soporte para drag manual sincronizado (fuera de la función para no duplicar eventos)
     const carousel = document.getElementById('lb-carousel');
     carousel.addEventListener('touchstart', (e) => { 
         lbIsDragging = true; 
